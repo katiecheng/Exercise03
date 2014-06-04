@@ -1,5 +1,14 @@
 import arithmetic
 
+sym_list = ["+","-","*","/","pow","mod","square","cube"]
+func_list = ["add", "subtract","multiply","divide","power","mod","square","cube"]
+
+def symbol_to_function_call(symbol):
+    sym_index = sym_list.index(symbol)
+    function = func_list[sym_index]
+    func_call = getattr(arithmetic, function)
+    return func_call
+
 def main():
     calculator_quit = False
 
@@ -8,28 +17,20 @@ def main():
         user_input = raw_input("> ")
         input_array = user_input.split(" ")
 
-        sym_list_2var = ["+","-","*","/","pow","mod"]
-        func_list_2var = ["add", "subtract","multiply","divide","power","mod"]
-        sym_list_1var = ["square","cube"]
-
         first_sym = input_array[0]
 
-        if first_sym in sym_list_2var:
-            sym_index = sym_list_2var.index(first_sym)
-            func = func_list_2var[sym_index]
-            func_call = getattr(arithmetic, func)
+        if first_sym in ["cube","square"]:
+            func_call = symbol_to_function_call(first_sym)
+            print func_call(int(input_array[1]))
+
+        elif first_sym in sym_list:
+            func_call = symbol_to_function_call(first_sym)
             value = func_call(int(input_array[1]), int(input_array[2]))
 
             if first_sym == "/":
                 print "%.6f" %value
             else:
                 print value
-
-        elif first_sym in sym_list_1var:
-            sym_index = sym_list_1var.index(first_sym)
-            func = sym_list_1var[sym_index]
-            func_call = getattr(arithmetic, func)
-            print func_call(int(input_array[1]))
 
         elif user_input == 'q':
             calculator_quit = True
