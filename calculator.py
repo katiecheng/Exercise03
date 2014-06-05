@@ -9,7 +9,37 @@ def symbol_to_function_call(symbol):
     func_call = getattr(arithmetic, function)
     return func_call
 
+def invalid_input(array):
+    if not array[0] in sym_list:
+        print "Unrecognized operator"
+        return True
+    elif len(array) >= 3:
+        try:
+            element1 = int(array[1])
+            element2 = int(array[2])
+            return False
+        except ValueError:
+            print "Enter numeric values only"
+            return True
+        except IndexError:
+            print "Operator requires two numeric arguments"
+            return True
+    elif (len(array) == 2) and (array[0] in ["square","cube"]): 
+        try:
+            element1 = int(array[1])
+            return False
+        except ValueError:
+            print "Enter numeric values only"
+            return True
+        except IndexError:
+            print "Operator requires one numeric argument"
+            return True
+    else:
+        print "Incorrect number of numeric arguments"
+        return True
+
 def calculate():
+
     calculator_quit = False
 
     while not calculator_quit:
@@ -19,7 +49,13 @@ def calculate():
 
         first_sym = input_array[0]
 
-        if first_sym in ["cube","square"]:
+        if user_input == 'q':
+            calculator_quit = True
+
+        elif invalid_input(input_array):
+            pass
+
+        elif first_sym in ["cube","square"]:
             func_call = symbol_to_function_call(first_sym)
             print func_call(int(input_array[1]))
 
@@ -36,10 +72,8 @@ def calculate():
             value = func_call(int(input_array[1]), int(input_array[2]))
             print value
 
-        elif user_input == 'q':
-            calculator_quit = True
         else:
-            print "Unrecognized input"
+            print "Other unknown error"
 
 def main():
     calculate()
