@@ -21,18 +21,12 @@ def invalid_input(array):
         except ValueError:
             print "Enter numeric values only"
             return True
-        except IndexError:
-            print "Operator requires two numeric arguments"
-            return True
     elif (len(array) == 2) and (array[0] in ["square","cube"]): 
         try:
             element1 = int(array[1])
             return False
         except ValueError:
             print "Enter numeric values only"
-            return True
-        except IndexError:
-            print "Operator requires one numeric argument"
             return True
     else:
         print "Incorrect number of numeric arguments"
